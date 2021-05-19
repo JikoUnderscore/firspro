@@ -1,0 +1,1 @@
+compile and move the exe to 'bin' folder
