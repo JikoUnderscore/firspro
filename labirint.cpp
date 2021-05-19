@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using std::cout;
 using std::cin;
@@ -20,8 +21,8 @@ void zaredi_karta(char labirint[8][8]) {
         cout << "-----------------------------\n";
         cout << "Chose a map from the list:\n";
         cout << "-----------------------------\n"
-                "[0] Level 1\n"
-                "[1] Level 2\n";
+                "[0] simple\n"
+                "[1] old\n";
         cout << "-----------------------------\n";
         cin >> chosenLevel;
         if (chosenLevel == 1 || chosenLevel == 0) {
@@ -69,6 +70,7 @@ char LABIRINT[8][8] = {
 
 
 void show_map(int posOfCharacerX, int posOfCharecterY, int losX, int losY) {
+    system("cls");
     char ig = '@';
     char labirint[8][8];
 
@@ -100,53 +102,65 @@ int main() {
 
     int numberOfLives = 1;
     int movex = 0, movey = 0;
+    bool isWallHit = 0;
     char move;
-    cout << endl;
+
 
     // shot the starting posision
     show_map(0, 0, 3, 3);
 
     int lives = 35;
     while (numberOfLives < lives) {
-
-        cout << "Use 'wasd' and 'Enter' to move!\n";
-        cin >> move;
-        if (move == 'w') {
-            movey -= 1;
-        }
-        else if (move == 's') {
-            movey += 1;
-        }
-        else if (move == 'a') {
-            movex -= 1;
-        }
-        else if (move == 'd') {
-            movex += 1;
-        }
-        else {
-            cout << move << " is not a valid movement\n";
-        }
-
         cout << "moves left " << lives - numberOfLives - 1 << endl;
+        cout << "Use 'wasd' and 'Enter' to move!\n";
+        if (isWallHit){
+            isWallHit = false;
+            cout << ">>>>> YOU CAN NOT MOVE THERE!!! <<<<<\n";
+        }
+        cout << endl;
+        cin >> move;
+
+        switch (move) {
+            case 'w':
+                movey -= 1;
+                break;
+            case 's':
+                movey += 1;
+                break;
+            case 'a':
+                movex -= 1;
+                break;
+            case 'd':
+                movex += 1;
+                break;
+            default:
+                cout << move << " is not a valid movement\n";
+        }
+
+
 
         if (LABIRINT[movey + 1][movex + 1] == '|' ||
             LABIRINT[movey + 1][movex + 1] == '-' ||
             LABIRINT[movey + 1][movex + 1] == '+' ||
             LABIRINT[movey + 1][movex + 1] == 'S') {
-            cout << ">>>>> YOU CAN NOT MOVE THERE!!! <<<<<\n";
+                isWallHit = true;
 
             // enters the wall and needs to return to the last posision
-            if (move == 'w') {
-                movey += 1;
-            }
-            else if (move == 's') {
-                movey -= 1;
-            }
-            else if (move == 'a') {
-                movex += 1;
-            }
-            else if (move == 'd') {
-                movex -= 1;
+            switch (move) {
+                case 'w':
+                    movey += 1;
+                    break;
+                case 's':
+                    movey -= 1;
+                    break;
+                case 'a':
+                    movex += 1;
+                    break;
+                case 'd':
+                    movex -= 1;
+                    break;
+                default:
+                    cout << move << " oh-oh";
             }
         }
         else if (LABIRINT[movey + 1][movex + 1] == 'F') {
@@ -156,11 +170,12 @@ int main() {
         show_map(movex, movey, 3 + movey, 3 + movex);
 
         numberOfLives++;
+
     }
 
     if (lives - numberOfLives - 1 <= 1) {
         cout << " you lost!!\n";
     }
-
+    system("pause");
 
 }
