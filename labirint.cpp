@@ -8,6 +8,20 @@ using std::endl;
 using std::ifstream;
 using std::string;
 
+char LABIRINT[8][8] = {
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#'}
+};
+
+
+int numberOfLives = 35;
+
 
 void zaredi_karta(char labirint[8][8]) {
     ifstream mapFile;
@@ -22,20 +36,27 @@ void zaredi_karta(char labirint[8][8]) {
         cout << "Chose a map from the list:\n";
         cout << "-----------------------------\n"
                 "[0] simple\n"
-                "[1] old\n";
+                "[1] old\n"
+                "[2] shiny\n";
         cout << "-----------------------------\n";
         cin >> chosenLevel;
-        if (chosenLevel == 1 || chosenLevel == 0) {
+        if (chosenLevel == 1 || chosenLevel == 0 || chosenLevel == 2) {
             break;
         }
     }
 
     switch (chosenLevel) {
         case 1:
-            levelname = "../maps/simple88.txt"; // cheat ssssddwdwwwddsssssaa
+            levelname = "../maps/simple88.txt";     // cheat ssssddwdwwwddsssssaa
+            numberOfLives = 21;
             break;
         case 0:
-            levelname = "../maps/old88.txt"; // cheat sssssddddwwdw
+            levelname = "../maps/old88.txt";        // cheat sssssddddwwdw
+            numberOfLives = 14;
+            break;
+        case 2:
+            levelname = "../maps/fu88.txt";        // cheat dddddsssssaawaawwa
+            numberOfLives = 19;
             break;
         default:
             levelname = "../maps/old88.txt";
@@ -44,29 +65,16 @@ void zaredi_karta(char labirint[8][8]) {
     int kolona = 0;
 
     mapFile.open(levelname);
-    while (getline(mapFile, lineOfFIle)) {
-        for (int red = 0; red < lineOfFIle.length(); ++red) {
-            // cout << red << " |" << lineOfFIle[red] << "| " << kolona << endl;
-            labirint[kolona][red] = lineOfFIle[red];
-        }
+        while (getline(mapFile, lineOfFIle)) {
+            for (int red = 0; red < lineOfFIle.length(); ++red) {
+                labirint[kolona][red] = lineOfFIle[red];
+            }
         kolona++;
-    }
+        }
     mapFile.close();
 
 
 }
-
-
-char LABIRINT[8][8] = {
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'},
-        {'#', '#', '#', '#', '#', '#', '#', '#'}
-};
 
 
 void show_map(int posOfCharacerX, int posOfCharecterY, int losX, int losY) {
@@ -99,8 +107,9 @@ int main() {
     zaredi_karta(LABIRINT);
     // full map
     // show_map(0, 0, 8, 8);
+    // system("pause");
 
-    int numberOfLives = 1;
+
     int movex = 0, movey = 0;
     bool isWallHit = false;
     char move;
@@ -109,9 +118,9 @@ int main() {
     // shot the starting posision
     show_map(0, 0, 3, 3);
 
-    int lives = 35;
-    while (numberOfLives < lives) {
-        cout << "moves left " << lives - numberOfLives - 1 << endl;
+
+    while (numberOfLives) {
+        cout << "moves left " << numberOfLives << endl;
         cout << "Use 'wasd' and 'Enter' to move!\n";
         if (isWallHit) {
             isWallHit = false;
@@ -161,17 +170,17 @@ int main() {
                 default:
                     cout << move << " oh-oh";
             }
-        } else if (LABIRINT[movey + 1][movex + 1] == 'F') {
-            cout << "YOU FOIND THE EXIT\n";
+        }
+        else if (LABIRINT[movey + 1][movex + 1] == 'F') {
+            cout << "YOU FOUND THE EXIT\n";
             break;
         }
         show_map(movex, movey, 3 + movey, 3 + movex);
 
-        numberOfLives++;
-
+        numberOfLives--;
     }
 
-    if (lives - numberOfLives - 1 <= 1) {
+    if (numberOfLives <= 0) {
         cout << " you lost!!\n";
     }
     system("pause");
