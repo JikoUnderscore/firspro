@@ -44,13 +44,13 @@ void zaredi_karta(char labirint[8][8]) {
     int kolona = 0;
 
     mapFile.open(levelname);
-        while (getline(mapFile, lineOfFIle)) {
-            for (int red = 0; red < lineOfFIle.length(); ++red) {
-                // cout << red << " |" << lineOfFIle[red] << "| " << kolona << endl;
-                labirint[kolona][red] = lineOfFIle[red];
-            }
-            kolona++;
+    while (getline(mapFile, lineOfFIle)) {
+        for (int red = 0; red < lineOfFIle.length(); ++red) {
+            // cout << red << " |" << lineOfFIle[red] << "| " << kolona << endl;
+            labirint[kolona][red] = lineOfFIle[red];
         }
+        kolona++;
+    }
     mapFile.close();
 
 
@@ -102,7 +102,7 @@ int main() {
 
     int numberOfLives = 1;
     int movex = 0, movey = 0;
-    bool isWallHit = 0;
+    bool isWallHit = false;
     char move;
 
 
@@ -113,7 +113,7 @@ int main() {
     while (numberOfLives < lives) {
         cout << "moves left " << lives - numberOfLives - 1 << endl;
         cout << "Use 'wasd' and 'Enter' to move!\n";
-        if (isWallHit){
+        if (isWallHit) {
             isWallHit = false;
             cout << ">>>>> YOU CAN NOT MOVE THERE!!! <<<<<\n";
         }
@@ -138,12 +138,11 @@ int main() {
         }
 
 
-
         if (LABIRINT[movey + 1][movex + 1] == '|' ||
             LABIRINT[movey + 1][movex + 1] == '-' ||
             LABIRINT[movey + 1][movex + 1] == '+' ||
             LABIRINT[movey + 1][movex + 1] == 'S') {
-                isWallHit = true;
+            isWallHit = true;
 
             // enters the wall and needs to return to the last posision
             switch (move) {
@@ -162,8 +161,7 @@ int main() {
                 default:
                     cout << move << " oh-oh";
             }
-        }
-        else if (LABIRINT[movey + 1][movex + 1] == 'F') {
+        } else if (LABIRINT[movey + 1][movex + 1] == 'F') {
             cout << "YOU FOIND THE EXIT\n";
             break;
         }
