@@ -109,14 +109,12 @@ int main() {
     // system("pause");
 
 
-    int movex = 0, movey = 0;
-    bool isWallHit = false;
-    char move;
-
-
     // shot the starting posision
     show_map(0, 0, 3, 3);
 
+    int movex = 0, movey = 0;
+    bool isWallHit = false;
+    char move;
 
     while (numberOfLives) {
         cout << "moves left " << numberOfLives << endl;
@@ -147,29 +145,29 @@ int main() {
 
 
         if (LABIRINT[movey + 1][movex + 1] == '|' ||
-            LABIRINT[movey + 1][movex + 1] == '-' ||
-            LABIRINT[movey + 1][movex + 1] == '+' ||
-            LABIRINT[movey + 1][movex + 1] == 'S') {
-            	isWallHit = true;
+                LABIRINT[movey + 1][movex + 1] == '-' ||
+                LABIRINT[movey + 1][movex + 1] == '+' ||
+                LABIRINT[movey + 1][movex + 1] == 'S') {
+            isWallHit = true;
 
-            	// enters the wall and needs to return to the last posision
-            	switch (move) {
-                case 'w':
-                    movey += 1;
-                    break;
-                case 's':
-                    movey -= 1;
-                    break;
-                case 'a':
-                    movex += 1;
-                    break;
-                case 'd':
-                    movex -= 1;
-                    break;
-                default:
-                    cout << move << " oh-oh";
+            // enters the wall and needs to return to the last posision
+            switch (move) {
+            case 'w':
+            movey += 1;
+            break;
+            case 's':
+            movey -= 1;
+            break;
+            case 'a':
+            movex += 1;
+            break;
+            case 'd':
+            movex -= 1;
+            break;
+            default:
+            cout << move << " oh-oh";
             }
-        }
+            }
         else if (LABIRINT[movey + 1][movex + 1] == 'F') {
             cout << "YOU FOUND THE EXIT\n";
             break;
