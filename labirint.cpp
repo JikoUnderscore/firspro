@@ -24,12 +24,8 @@ int numberOfLives = 35;
 
 
 void zaredi_karta(char labirint[8][8]) {
-    ifstream mapFile;
-    string lineOfFIle;
-
     // chose a map
     int chosenLevel;
-    string levelname;
 
     while (true) {
         cout << "-----------------------------\n";
@@ -44,7 +40,7 @@ void zaredi_karta(char labirint[8][8]) {
             break;
         }
     }
-
+	string levelname;
     switch (chosenLevel) {
         case 1:
             levelname = "../maps/simple88.txt";     // cheat ssssddwdwwwddsssssaa
@@ -60,9 +56,12 @@ void zaredi_karta(char labirint[8][8]) {
             break;
         default:
             levelname = "../maps/old88.txt";
+			numberOfLives = 14;
     }
 
     int kolona = 0;
+	string lineOfFIle;
+	ifstream mapFile;
 
     mapFile.open(levelname);
         while (getline(mapFile, lineOfFIle)) {
@@ -151,10 +150,10 @@ int main() {
             LABIRINT[movey + 1][movex + 1] == '-' ||
             LABIRINT[movey + 1][movex + 1] == '+' ||
             LABIRINT[movey + 1][movex + 1] == 'S') {
-            isWallHit = true;
+            	isWallHit = true;
 
-            // enters the wall and needs to return to the last posision
-            switch (move) {
+            	// enters the wall and needs to return to the last posision
+            	switch (move) {
                 case 'w':
                     movey += 1;
                     break;
